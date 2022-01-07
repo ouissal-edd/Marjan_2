@@ -1,0 +1,188 @@
+<%- include('../partials/headerPdg'); -%>
+<div class="container-fluid">
+    <!-- Cart for Statistiques -->
+    <div class="row">
+
+
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Valid promos
+                            </div>
+                            <!-- here id for showing the count Brands -->
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="MyBrands">
+                                <% if (statestics) { %>
+                                <input id='statestic_novalid' type="hidden" value="<%=statestics.data.novalid %>" id="">
+                                <p><%=statestics.data.novalid %></p>
+                                <% } %>
+
+                            </div>
+                            <!-- here is the end -->
+
+                        </div>
+                        <div class="col-auto">
+                            <i class="bs bs-scissors-1 fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                No valid promos
+                            </div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <!-- here id for showing the count Cars -->
+                                    <div class="h5 mb-0 mr- 3 font-weight-bold text-gray-800" id="MyCars">
+                                        <% if (statestics) { %>
+                                        <input id='statestic_valid' type="hidden" value="<%=statestics.dta.valid %>"
+                                            id="">
+                                        <p><%=statestics.dta.valid %></p>
+                                        <% } %>
+                                    </div>
+                                    <!-- Ennd count Cars -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bs bs-man fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                En cours
+                            </div>
+                            <!-- here id for showing the count Brands -->
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="MyBrands">
+                                <% if (statestics) { %>
+                                <input id='encours' type="hidden" value="<%=statestics.encours.encours %>" id="">
+                                <p><%=statestics.encours.encours %></p>
+                                <% } %>
+
+                            </div>
+                            <!-- here is the end -->
+
+                        </div>
+                        <div class="col-auto">
+                            <i class="bs bs-scissors-1 fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Chart  -->
+    <div>
+        <canvas id="myChart" style="max-width: 90%;"></canvas>
+    </div>
+    <!-- enddddd  -->
+
+
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-4">
+            <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Promos</h6>
+        </div>
+        <div class="card-body">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th>Center</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Cause</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (allPromo) { %>
+                    <% for (var i = 0; i < allPromo.length; i++) { %>
+                    <tr>
+                        <th><%=allPromo[i].nom_centre %> a <%=allPromo[i].nom_ville %> </th>
+                        <th><%=allPromo[i].nom_prod %></th>
+                        <th><%=allPromo[i].prix %></th>
+                        <th><%=allPromo[i].commentaire %></th>
+                        <td>
+                            <form action="/deletePromo/<%=allPromo[i].id_promo_prod%>" method="post"><button
+                                    type="submit" class="btn btn-sm btn-danger">Supp</button></form>
+                        </td>
+
+
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <!-- End Table For Read reservationq -->
+
+    <!-- Modal Avertissement  -->
+    <script>
+        var valid = document.getElementById('statestic_valid').value;
+        var novalid = document.getElementById('statestic_novalid').value;
+        var encours = document.getElementById('encours').value;
+
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["validate promo", "No validate promo", "promos en cours"],
+                datasets: [{
+                    label: 'Promo',
+
+                    data: [valid, novalid, encours],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    <%- include('../partials/footer'); -%>
