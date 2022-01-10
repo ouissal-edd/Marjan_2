@@ -1,0 +1,121 @@
+<%- include('../partials/headerAdmin'); -%>
+
+<div class="container-fluid">
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-4">
+            <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Creat account</h6>
+        </div>
+        <div style="width: 20%;">
+            <button class="btn btn-primary btn-sm" style="margin-bottom: 1px; margin-top:20px" type="button"
+                data-toggle="modal" data-target="#add_new_chef" data-placement="top">
+                <i class="fa fa-plus"></i>
+                add new chef
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th>Chef Rayon</th>
+                        <th>Nom Rayon</th>
+                        <th>email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                
+                <tbody class="text-center">
+                    <% if (adminRayon) { %>
+                    <% for (var i = 0; i < adminRayon.length; i++) { %>
+                    <tr>
+                        <th><%=adminRayon[i].nom_admin_rayon %>  </th>
+                        <th><%=adminRayon[i].email_admin_rayon %></th>
+                        <th><%=adminRayon[i].type_cat %></th>
+                        <td>
+                            <form  method="post"><button
+                                    type="submit" class="btn btn-sm btn-danger">Supp</button></form>
+                        </td>
+
+
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <!-- Add New  Account -->
+
+    <div class="modal fade" id="add_new_chef" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> add new account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/addChefR" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">name </label>
+                            <input type="text" id="name" class="form-control" placeholder="name"
+                                name="nom_admin_rayon">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="name">email </label>
+                            <input type="text" id="email" class="form-control" placeholder="email"
+                                name="email_admin_rayon">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">password </label>
+                            <input type="password" class="form-control" placeholder="password" name="password_admin_rayon">
+                        </div>
+                        <div class="form-group" >
+                       <input type="hidden" name="center"  id="centeer">                   
+                    </div>
+                    <div class="form-group">
+                        <label for="name"> Category</label>
+
+                        <select name="categorie"  class="custom-select">
+                            <% if (categorie) { %>
+                            <% for (var i = 0; i < categorie.length; i++) { %>
+                            <option value="<%=categorie[i].id_cat %>">
+                                <%=categorie[i].type_cat %>
+                            </option>
+                            <% } %>
+                            <% } %>
+                        </select> </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">add</button>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<script>
+    var num = localStorage.getItem('info');
+    var number = JSON.parse(num);
+    var centre = number[0].num
+    console.log(centre)
+
+   document.getElementById('centeer').value = centre;
+
+
+
+</script>
+
+    <%- include('../partials/footer'); -%>

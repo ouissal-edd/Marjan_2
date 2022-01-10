@@ -3,119 +3,264 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-4">
-            <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Creat account</h6>
-        </div>
-        <div style="width: 20%;">
-            <button class="btn btn-primary btn-sm" style="margin-bottom: 1px; margin-top:20px" type="button"
-                data-toggle="modal" data-target="#add_new_promo" data-placement="top">
-                <i class="fa fa-plus"></i>
-                add new promo
-            </button>
-
-            <button class="btn btn-primary btn-sm" style="margin-bottom: 30px; margin-top:5px" type="button"
-                data-toggle="modal" data-target="#add_new_cat" data-placement="top">
-                <i class="fa fa-plus"></i>
-                add new rayon
-            </button>
+            <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Creat promos</h6>
         </div>
 
+        <div class="card-body">
+
+
+            <form action="addPromotion" method="post">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="inputState">date debut</label>
+                        <input type="date" class="form-control date_d" name="date_debut">
+                    </div>
+                    <div class="col">
+                        <label for="inputState">date fin</label>
+                        <input type="date" class="form-control date_f" name="date_fin">
+                    </div>
+                    <div class="col">
+                        <label for="rayon">Rayon</label>
+                        <select name="fk_rayon" class="form-control fk_rayon">
+                            <% if (adminRayon) { %>
+                            <% for (var i = 0; i < adminRayon.length; i++) { %>
+                            <option value="<%=adminRayon[i].id_admin_rayon %>">
+                                <%=adminRayon[i].nom_admin_rayon %>-<%=adminRayon[i].type_cat %>
+                            </option>
+                            <% } %>
+                            <% } %>
+
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="product">Product</label>
+                        <% if (products) { %>
+                        <select name="prooduit" class="form-control prooduit">
+                            <% for (var i = 0; i < products.length; i++) { %>
+                            <option value=<%=products[i].id_prod %>>
+                                <%=products[i].nom_prod %>
+                            </option>
+                            <% } %>
+                            <% } %>
+
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="remise">remise</label>
+                        <select name="remise" class="form-control remise">
+                            <option selected value="5">5%</option>
+                            <option value="10">10%</option>
+                            <option value="15">15%</option>
+                            <option value="20">20%</option>
+                            <option value="25">25%</option>
+                            <option value="30">30%</option>
+                            <option value="50">50%</option>
+                        </select>
+                    </div>
+                    <div style="margin-top: 2.5%;" class="col">
+                        <input value="16" type="number" class="form-control fk_admin" name="fk_admin">
+                    </div>
+                    <div style="margin-top: 2.5%;" class="col">
+                        <button type="button" id="add_row_product" class="btn btn-primary">add</button>
+                    </div>
+
+                </div>
+                <div id="diplucate" class="form-row">
+                </div>
+
+                <hr>
+                <div class="col">
+                    <button id="add_promo" type="submit" class="btn btn-primary">add promos</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+        <div  class="card shadow mb-4">
+        <div class="card-header py-4">
+            <% if (promo) { %>
+            <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Promotion de Marjan <%=promo[i].nom_centre %>/<%=promo[i].nom_ville %> </h6>
+            <% } %>
+        </div>
         <div class="card-body">
 
             <table class="table table-striped">
                 <thead>
                     <tr class="text-center">
-                        <th>Admin rayon</th>
-                        <th>Center</th>
-                        <th>Ville</th>
-                        <th>Action</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>fidility</th>
+                        <th>Quantity</th>
+                                             
                     </tr>
                 </thead>
-                <tbody>
-
+                <tbody class="text-center">
+                    <% if (promo) { %>
+                    <% for (var i = 0; i < promo.length; i++) { %>
+                    <tr>
+                        <th><%=promo[i].nom_prod %> </th>
+                        <th><%=promo[i].prix %></th>
+                        <th><%=promo[i].fidelite %></th>
+                        <th><%=promo[i].qte_prod %></th>                     
+                    </tr>
+                    <% } %>
+                    <% } %>
                 </tbody>
 
             </table>
         </div>
     </div>
 
-    <!-- Add New  Account -->
 
-    <div class="modal fade" id="add_new_promo" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"> add new promo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/addCenterAdmin" method="post">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">date debut </label>
-                            <input type="text" id="brand_name_input" class="form-control" placeholder="name"
-                                name="nom_admin">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <% if (typeof Jwt != "undefined") { %>
+            <% var token = Jwt %>
+    <script>
+      let tok = <%- JSON.stringify(token) %>;
+      let num = <%- JSON.stringify(num_centre) %>;
 
-                        </div>
-                        <div class="form-group">
-                            <label for="name">email </label>
-                            <input type="text" id="brand_name_input" class="form-control" placeholder="email"
-                                name="email_admin">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">password </label>
-                            <input type="password" class="form-control" placeholder="password" name="password_admin">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">password </label>
-                            <select name="center" id="center" class="custom-select">
-                                <option value="1">add</option>
-                            </select> </div>
+      data=[
+    {
+        tok:tok,
+        num:num
+    }
+]
+      localStorage.setItem('info', JSON.stringify(data));
 
+        $(document).ready(function () {
+            var max_fields = 10;
+            var wrapper = $("#diplucate");
+            var add_button = $("#add_row_product");
+            var x = 0;
+            $(add_button).click(function (e) {
+                e.preventDefault();
+                if (x < max_fields) {
+                    x++;
+                    // console.log(x);
+                    $(wrapper).append(
+                        `
+					<div style="margin-top:1% ; width:100%" >
+                        <div class="form-row">
+                    <div class="col">
+                        <input  type="date" class="form-control date_d" name="date_debut">
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">add</button>
-
+                    <div class="col">
+                        <input type="date" class="form-control date_f" name="date_fin">
                     </div>
-                </form>
+                    <div class="col">
+                        <select name="fk_rayon" class="form-control fk_rayon">
+                            <% if (adminRayon) { %>
+                            <% for (var i = 0; i < adminRayon.length; i++) { %>
+                            <option value="<%=adminRayon[i].id_admin_rayon %>">
+                                <%=adminRayon[i].nom_admin_rayon %>-<%=adminRayon[i].type_cat %>
+                            </option>
+                            <% } %>
+                            <% } %>
 
-            </div>
-        </div>
-    </div>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <% if (products) { %>
+                        <select name="prooduit" class="form-control prooduit">
+                            <% for (var i = 0; i < products.length; i++) { %>
+                            <option value=<%=products[i].id_prod %>>
+                                <%=products[i].nom_prod %>
+                            </option>
+                            <% } %>
+                            <% } %>
 
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select name="remise" class="form-control remise">
+                            <option selected value="5">5%</option>
+                            <option value="10">10%</option>
+                            <option value="15">15%</option>
+                            <option value="20">20%</option>
+                            <option value="25">25%</option>
+                            <option value="30">30%</option>
+                            <option value="50">50%</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input value="16" type="number" class="form-control fk_admin" name="fk_admin">
+                    </div>
+                 
+                        <button id="remove_product" type="button" class="btn btn-danger">Remove</button>
 
-    <!-- Add New  categoryy -->
-
-    <div class="modal fade" id="add_new_cat" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"> Add new categorie</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                   
                 </div>
-                <form action="/addCategorie" method="post">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name">name </label>
-                            <input type="text" id="brand_name_input" class="form-control" placeholder="Category"
-                                name="type_cat">
-
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-info">add</button>
-
-                        </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
+						</div>
+		`
+                    )
 
 
+                }
+                setTimeout(function () {
+                    for (var i = 0; i < pr_select.length; i++) {
+                        $("#product_select" + x + " option[value='" + pr_select[i] + "']")
+                            .remove();
+                    }
+                }, 300);
+            });
+            $(wrapper).on("click", "#remove_product", function (e) {
+                e.preventDefault();
+                $(this).parent('div').remove();
+                x--;
+            })
+
+        });
+
+        $(document).on("click", "#add_promo", function (e) {
+            e.preventDefault();
+
+            var date_d = [];
+            var date_f = [];
+            var fk_rayon = [];
+            var prooduit = [];
+            var remise = [];
+            var fk_admin = [];
+
+            $('.date_d').each(function () {
+                date_d.push($(this).val());
+            });
+            $('.date_f').each(function () {
+                date_f.push($(this).val());
+            });
+            $('.fk_rayon').each(function () {
+                fk_rayon.push($(this).val());
+            });
+            $('.prooduit').each(function () {
+                prooduit.push($(this).val());
+            });
+            $('.remise').each(function () {
+                remise.push($(this).val());
+            });
+            $('.fk_admin').each(function () {
+                fk_admin.push($(this).val());
+            });
+
+            alert(remise)
+            // $.ajax({
+            //     url: "http://localhost:3000/api/admin/promo",
+            //     method: "POST",
+            //     data: {
+            //         "date_debut": date_d,
+            //         "date_fin": date_f,
+            //         "fk_rayon": fk_rayon,
+            //         "fk_prod": prooduit,
+            //         "remise": remise,
+            //         "fk_admin": fk_admin,
+            //     },
+
+            // });
+        });
+    </script>
+  <% } %>
 
 
-
+     
     <%- include('../partials/footer'); -%>

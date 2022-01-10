@@ -3,93 +3,19 @@
     <!-- Cart for Statistiques -->
     <div class="row">
 
+        <% if (statestics) { %>
+            <input id='statestic_novalid' type="hidden" value="<%=statestics.data.novalid %>" id="">
+            <% } %>
+            <% if (statestics) { %>
+                <input id='statestic_valid' type="hidden" value="<%=statestics.dta.valid %>"
+                 >
+                <% } %>
 
+                <% if (statestics) { %>
+                    <input id='encours' type="hidden" value="<%=statestics.encours.encours %>" id="">
+                    <% } %>
+   
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Valid promos
-                            </div>
-                            <!-- here id for showing the count Brands -->
-                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="MyBrands">
-                                <% if (statestics) { %>
-                                <input id='statestic_novalid' type="hidden" value="<%=statestics.data.novalid %>" id="">
-                                <p><%=statestics.data.novalid %></p>
-                                <% } %>
-
-                            </div>
-                            <!-- here is the end -->
-
-                        </div>
-                        <div class="col-auto">
-                            <i class="bs bs-scissors-1 fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                No valid promos
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <!-- here id for showing the count Cars -->
-                                    <div class="h5 mb-0 mr- 3 font-weight-bold text-gray-800" id="MyCars">
-                                        <% if (statestics) { %>
-                                        <input id='statestic_valid' type="hidden" value="<%=statestics.dta.valid %>"
-                                            id="">
-                                        <p><%=statestics.dta.valid %></p>
-                                        <% } %>
-                                    </div>
-                                    <!-- Ennd count Cars -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="bs bs-man fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                En cours
-                            </div>
-                            <!-- here id for showing the count Brands -->
-                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="MyBrands">
-                                <% if (statestics) { %>
-                                <input id='encours' type="hidden" value="<%=statestics.encours.encours %>" id="">
-                                <p><%=statestics.encours.encours %></p>
-                                <% } %>
-
-                            </div>
-                            <!-- here is the end -->
-
-                        </div>
-                        <div class="col-auto">
-                            <i class="bs bs-scissors-1 fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
 
@@ -97,14 +23,14 @@
 
     <!-- Chart  -->
     <div>
-        <canvas id="myChart" style="max-width: 90%;"></canvas>
+        <canvas id="myChart" ></canvas>
     </div>
     <!-- enddddd  -->
 
 
 
 
-    <div class="card shadow mb-4">
+    <div id="prooomo" class="card shadow mb-4">
         <div class="card-header py-4">
             <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Promos</h6>
         </div>
@@ -118,9 +44,10 @@
                         <th>Price</th>
                         <th>Cause</th>
                         <th>Action</th>
+                                             
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
                     <% if (allPromo) { %>
                     <% for (var i = 0; i < allPromo.length; i++) { %>
                     <tr>
@@ -142,11 +69,12 @@
             </table>
         </div>
     </div>
-    <!-- End Table For Read reservationq -->
+  
 
-    <!-- Modal Avertissement  -->
-    <script>
-        var valid = document.getElementById('statestic_valid').value;
+  
+              <script>
+
+          var valid = document.getElementById('statestic_valid').value;
         var novalid = document.getElementById('statestic_novalid').value;
         var encours = document.getElementById('encours').value;
 
@@ -156,7 +84,7 @@
             data: {
                 labels: ["validate promo", "No validate promo", "promos en cours"],
                 datasets: [{
-                    label: 'Promo',
+                    label: 'Promotion',
 
                     data: [valid, novalid, encours],
                     backgroundColor: [
@@ -184,5 +112,11 @@
                 }
             }
         });
-    </script>
+        </script>
+
+   
+
+
+
+
     <%- include('../partials/footer'); -%>
