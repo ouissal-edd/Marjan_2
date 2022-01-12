@@ -20,8 +20,8 @@
                 <thead>
                     <tr class="text-center">
                         <th>Chef Rayon</th>
-                        <th>Nom Rayon</th>
                         <th>email</th>
+                        <th>Nom Rayon</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -30,9 +30,9 @@
                     <% if (adminRayon) { %>
                     <% for (var i = 0; i < adminRayon.length; i++) { %>
                     <tr>
-                        <th><%=adminRayon[i].nom_admin_rayon %>  </th>
-                        <th><%=adminRayon[i].email_admin_rayon %></th>
-                        <th><%=adminRayon[i].type_cat %></th>
+                        <td><%=adminRayon[i].nom_admin_rayon %>  </td>
+                        <td><%=adminRayon[i].email_admin_rayon %></td>
+                        <td><%=adminRayon[i].type_cat %></td>
                         <td>
                             <form  method="post"><button
                                     type="submit" class="btn btn-sm btn-danger">Supp</button></form>

@@ -53,7 +53,9 @@ exports.loginAdmin = (req, rese) => {
                                 adminRayon: res2.data.data,
                                 Jwt: res3.data.token,
                                 promo: res6.data.data,
-                                num_centre:res3.data.admin
+                                num_centre:res3.data.admin,
+                                numero_ad:res3.data.admin_num
+
                             })))
 
 
@@ -67,23 +69,30 @@ exports.loginAdmin = (req, rese) => {
         .catch(err => (console.log(err)));
 
 }
+exports.loginRayon = (req, rese) => {
+    axios.post('http://localhost:3000/api/rayon/loginRayon', {
+            "email_admin_rayon": req.body.email_admin_rayon,
+            "password_admin_rayon": req.body.password_rayon,
 
-// exports.loginAdmin = (req, rese) => {
-//     axios.post('http://localhost:3000/api/admin/loginAdmin', {
+        })
+        .then((res) => {
+            if (res.data.success == 0) {
+                rese.render('chefRayon/login');
+            } else {
+                axios.get('http://localhost:3000/api/getPromByChef/'+res.data.ChefRayon)
+                            .then(res1 => ( rese.render('chefRayon/dashRayon', {
+                                promotion: res1.data.data,
+                                Jwt: res.data.token,
+                                chef:res.data.ChefRayon,
+                            })))
 
-//             "email_admin": req.body.email_admin,
-//             "password_admin": req.body.password_admin
-//         })
-//         .then((res) => {
-//             if (res.data.success == 0) {
-//                 rese.render('admin/logiin');
-//             } else {
-//                 rese.redirect('/getData')
-//             }
-//         })
-//         .catch(err => (console.log(err)));
 
-// }
+                    .catch(err1 => (console.log(err1)))
+            }
+        })
+        .catch(err => (console.log(err)));
+
+},
 
 exports.getCenter = (req, resu) => {
     axios.get('http://localhost:3000/api/pdg/centre')
@@ -101,7 +110,7 @@ exports.getCenter = (req, resu) => {
 }
 
 exports.getChefRayon = (req, resu) => {
-    const cc= req.body.centree;
+    const cc= req.body.center;
     axios.get('http://localhost:3000/api/admin/category')
     .then((res) => {
     axios.post('http://localhost:3000/api/admin/getAdminRayon',{"centre":1})
@@ -177,7 +186,7 @@ exports.addAdminCentre = (req, rese) => {
             "fkcentre": req.body.center
 
         })
-        .then(res => (rese.render('pdg/gestion_account')))
+        .then(res => (rese.redirect('/getCenter')))
         .catch(err => (console.log(err)));
 }
 exports.deletePromotion = (req, resu) => {
@@ -190,7 +199,7 @@ exports.addCategorie = (req, rese) => {
     axios.post('http://localhost:3000/api/pdg/createCategorie', {
             "type_cat": req.body.type_cat,
         })
-        .then(res => (rese.render('pdg/gestion_account')))
+        .then(res => (rese.redirect('/getCenter')))
         .catch(err => (console.log(err)));
 }
 
@@ -198,7 +207,7 @@ exports.addPromotion = (req, rese) => {
     axios.post('http://localhost:3000/api/admin/promo', {
 
             "date_debut": req.body.date_debut,
-            "date_fin": req.body.date_fin,
+            "nombreDay":req.body.jour,
             "fk_rayon": req.body.fk_rayon,
             "fk_prod": req.body.prooduit,
             "remise": req.body.remise,
@@ -210,6 +219,32 @@ exports.addPromotion = (req, rese) => {
                 res.render('login');
             } else {
                 rese.redirect('/getData')
+            }
+        })
+        .catch(err => (console.log(err)));
+
+}
+
+
+exports.validationPromo = (req, rese) => {
+    axios.patch('http://localhost:3000/api/validation', {
+
+            "id_promo_prod": req.body.promo,
+            "commentaire":req.body.commentaire,
+            "status": req.body.status,
+            
+        })
+        .then((res) => {
+
+            if (res.data.success == 0) {
+               console.log('erreur')
+            } else {
+                axios.get('http://localhost:3000/api/getPromByChef/'+req.body.chefRayon)
+                .then(res1 => (console.log(res1,req.body.chefRayon),rese.render('chefRayon/dashRayon', {
+                    promotion: res1.data.data,
+                })))
+                .catch(err1 => (console.log(err1)));
+
             }
         })
         .catch(err => (console.log(err)));

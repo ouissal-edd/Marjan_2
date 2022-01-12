@@ -5,19 +5,17 @@
         <div class="card-header py-4">
             <h6 id="titleReserv" class="m-0 font-weight-bold text-primary">Creat account</h6>
         </div>
-        <div style="width: 20%;">
-            <button class="btn btn-primary btn-sm" style="margin-bottom: 1px; margin-top:20px" type="button"
-                data-toggle="modal" data-target="#add_new_account" data-placement="top">
-                <i class="fa fa-plus"></i>
+        <div class="d-flex flex-row-reverse bd-highlight">
+            <div class="p-2 bd-highlight"><button class="btn btn-primary btn-sm" type="button"
+                data-toggle="modal" data-target="#add_new_account" data-placement="top">       
                 add new account
-            </button>
-
-            <button class="btn btn-primary btn-sm" style="margin-bottom: 30px; margin-top:5px" type="button"
+            </button></div>
+            <div class="p-2 bd-highlight">   <button class="btn btn-primary btn-sm"  type="button"
                 data-toggle="modal" data-target="#add_new_cat" data-placement="top">
-                <i class="fa fa-plus"></i>
                 add new category
-            </button>
-        </div>
+            </button></div>
+          </div>
+      
 
         <div class="card-body">
 
@@ -34,9 +32,9 @@
                         <% if (adminCentre) { %>
                         <% for (var i = 0; i < adminCentre.length; i++) { %>
                         <tr>
-                            <th><%=adminCentre[i].email_admin %>  </th>
-                            <th><%=adminCentre[i].nom_centre %></th>
-                            <th><%=adminCentre[i].nom_ville %></th>
+                            <td><%=adminCentre[i].email_admin %>  </td>
+                            <td><%=adminCentre[i].nom_centre %></td>
+                            <td><%=adminCentre[i].nom_ville %></td>
                             <td>
                                 <form action="/deletePromo/" method="post"><button
                                         type="submit" class="btn btn-sm btn-danger">desactive</button></form>

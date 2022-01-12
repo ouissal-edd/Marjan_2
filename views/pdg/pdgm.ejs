@@ -23,7 +23,7 @@
 
     <!-- Chart  -->
     <div>
-        <canvas id="myChart" ></canvas>
+        <canvas style="max-width: 700px;" id="myChart" ></canvas>
     </div>
     <!-- enddddd  -->
 
@@ -51,13 +51,38 @@
                     <% if (allPromo) { %>
                     <% for (var i = 0; i < allPromo.length; i++) { %>
                     <tr>
-                        <th><%=allPromo[i].nom_centre %> a <%=allPromo[i].nom_ville %> </th>
-                        <th><%=allPromo[i].nom_prod %></th>
-                        <th><%=allPromo[i].prix %></th>
-                        <th><%=allPromo[i].commentaire %></th>
+                        <td><%=allPromo[i].nom_centre %> a <%=allPromo[i].nom_ville %> </th>
+                        <td><%=allPromo[i].nom_prod %></td>
+                        <td><%=allPromo[i].prix %></td>
+                        <td><%=allPromo[i].commentaire %></td>
                         <td>
-                            <form action="/deletePromo/<%=allPromo[i].id_promo_prod%>" method="post"><button
-                                    type="submit" class="btn btn-sm btn-danger">Supp</button></form>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
+                               Delete
+                              </button>
+
+                              <!-- modal -->
+                              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                     Sure to delete this ?
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn  btn-secondary" data-dismiss="modal">Close</button>
+                                      <form action="/deletePromo/<%=allPromo[i].id_promo_prod%>" method="post"><button
+                                        type="submit" class="btn  btn-danger">yes</button></form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- end -->
+                            
                         </td>
 
 

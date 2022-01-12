@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const router = require('./router/router');
+const router = require('./router/api');
 const bodyParser = require('body-parser');
 
 const session = require('express-session');
@@ -25,6 +25,9 @@ app.use(bodyParser.urlencoded({
 // to get views 
 app.get('/pdg', function (req, res) {
     res.render('pdg/login');
+});
+app.get('/rayon', function (req, res) {
+    res.render('chefRayon/login');
 });
 
 app.get('/g_account', function (req, res) {
@@ -63,6 +66,12 @@ app.post('/loginAdmin', router.loginAdmin);
 app.get('/getChef', router.getChefRayon);
 app.post('/addPromotion', router.addPromotion);
 app.post('/addChefR', router.addChefRayon);
+
+// Chef rayon
+
+app.post('/loginChef', router.loginRayon);
+app.post('/updateStatut', router.validationPromo);
+
 
 
 
